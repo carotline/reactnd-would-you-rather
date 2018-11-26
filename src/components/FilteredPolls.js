@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 //import { connect } from 'react-redux'
 
 
-class LeadBoard extends Component {
+class Poll extends Component {
     render() {
       return (
         <div>
-          <h3 className='center'>LeadBoard</h3>
+          <h3 className='center'>Poll</h3>
 
         </div>
       )
     }
 }
 
-export default LeadBoard 
+export default Poll 
