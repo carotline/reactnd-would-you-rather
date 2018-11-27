@@ -9,7 +9,7 @@ import NewPoll from './NewPoll'
 import LeaderBoard from './LeaderBoard'
 import PrivateRoute from './PrivateRoute'
 import NotFound from './NotFound'
-import Poll from './Poll'
+import FilteredPolls from './FilteredPolls'
 import Nav from './Nav'
 import logo from '../logo.svg';
 import '../App.css';

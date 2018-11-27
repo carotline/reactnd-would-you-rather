@@ -1,47 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Poll } from './Poll'
-//import Poll from './Poll'
+import Poll from './Poll'
 
 class PollList extends Component {
     state = {
-      filter: 'unanswered'
+      filter: 'unanswered',
+      filteredPollIds: this.props.orderedUnansewred
     }
     handleFilter = (event) => {
-      console.log('eventClick', event.target.value)
-      this.setState({filter: event.target.value});
-      
-
-    }
-
-    filterPolls = () => {
-      const { filter } = this.state
-      const { authedUser, polls } = this.props
-      console.log('filter', filter)
-      console.log('authedUserFilter', authedUser)
-      console.log('pollsFilter', polls)
-
-      if (filter === 'answered') {
-        return polls.filter(
-          poll =>
-            poll.optionOne.votes.indexOf(authedUser) === -1 &&
-            poll.optionTwo.votes.indexOf(authedUser) === -1
-        );
-      }
-
-      if (filter === 'unanswered') {
-        return polls.filter(
-          poll =>
-            poll.optionOne.votes.indexOf(authedUser) !== -1 &&
-            poll.optionTwo.votes.indexOf(authedUser) !== -1
-        );
-      }
-
+      this.setState({
+        filter: event.target.value,
+        filteredPollIds: event.target.value === 'unanswered' ?
+        this.props.orderedUnansewred : this.props.orderedAnsewred
+      })
     }
     render() {
-      const pollsFiltered = this.filterPolls()
-      const { filter } = this.state
-      console.log('PollList, authed', this.props.authedUser)
+      const { filter, filteredPollIds } = this.state
       return (
         <div>
           <h3 className='center'>PollList here</h3>
@@ -58,22 +32,36 @@ class PollList extends Component {
               ansewred questions
           </button>
           <ul>
-            {pollsFiltered.map((poll)=> {
-              return <Poll poll={poll} filter={filter} />
-            })}
+            {filteredPollIds.map((id)=> (
+                <li key={id}>
+                  <Poll filter={filter} id={id} />
+                </li>
+            ))}
           </ul>
-
-
         </div>
       )
     }
   }
-   function mapStateToProps ({ polls, authedUser }) {
+   function mapStateToProps ({ polls, authedUser, users }) {
+     const pollIds = Object.keys(polls)
+     .sort((a,b) => polls[b].timestamp - polls[a].timestamp)
+     const ansewredIds = Object.keys(users[authedUser].answers) 
+     const orderedAnsewred = []
+     const orderedUnansewred = []
+     
+     pollIds.map(id => {
+       if (ansewredIds.indexOf(id) > -1) {
+         orderedAnsewred.push(id)
+       } else {
+         orderedUnansewred.push(id)
+       }
+     })
     return {
+      users,
       polls,
       authedUser,
-      pollIds: Object.keys(polls)
-        .sort((a,b) => polls[b].timestamp - polls[a].timestamp)
+      orderedAnsewred,
+      orderedUnansewred
     }
   }
    export default connect(mapStateToProps)(PollList) 

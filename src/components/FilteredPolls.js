@@ -1,16 +1,13 @@
-import React, { Component } from 'react'
-//import { connect } from 'react-redux'
+import React from 'react'
+import UnansweredPoll from './UnansweredPoll'
+import AnsweredPoll from './AnsweredPoll'
 
 
-class Poll extends Component {
-    render() {
-      return (
-        <div>
-          <h3 className='center'>Poll</h3>
-
-        </div>
-      )
-    }
+function FilteredPolls (props) {
+  const {filter, id} = props
+  return (
+    filter == 'answered' ? <AnsweredPoll id={id} /> : <UnansweredPoll id={id} />
+  )
 }
 
-export default Poll 
+export default FilteredPolls 
