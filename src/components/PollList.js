@@ -23,18 +23,18 @@ class PollList extends Component {
             value='unanswered' 
             onClick={this.handleFilter}
             className={'btn-filter ' + filter === 'unanswered' ? 'active' : ''}>
-              unansewred questions
+              unanswered questions
           </button>
           <button 
             value='answered' 
             onClick={this.handleFilter}
             className={'btn-filter ' + filter === 'answered' ? 'active' : ''}>
-              ansewred questions
+              answered questions
           </button>
           <ul>
             {filteredPollIds.map((id)=> (
                 <li key={id}>
-                  <Poll filter={filter} id={id} />
+                  <Poll id={id} />
                 </li>
             ))}
           </ul>
@@ -42,26 +42,23 @@ class PollList extends Component {
       )
     }
   }
-   function mapStateToProps ({ polls, authedUser, users }) {
-     const pollIds = Object.keys(polls)
+  function mapStateToProps ({ polls, authedUser, users }) {
+    const pollIds = Object.keys(polls)
      .sort((a,b) => polls[b].timestamp - polls[a].timestamp)
-     const ansewredIds = Object.keys(users[authedUser].answers) 
-     const orderedAnsewred = []
-     const orderedUnansewred = []
+    const ansewredIds = Object.keys(users[authedUser].answers) 
+    const orderedAnsewred = []
+    const orderedUnansewred = []
      
-     pollIds.map(id => {
-       if (ansewredIds.indexOf(id) > -1) {
-         orderedAnsewred.push(id)
-       } else {
-         orderedUnansewred.push(id)
-       }
-     })
+    pollIds.map(id => {
+      if (ansewredIds.indexOf(id) > -1) {
+        orderedAnsewred.push(id)
+      } else {
+        orderedUnansewred.push(id)
+      }
+    })
     return {
-      users,
-      polls,
-      authedUser,
       orderedAnsewred,
       orderedUnansewred
     }
   }
-   export default connect(mapStateToProps)(PollList) 
+  export default connect(mapStateToProps)(PollList) 

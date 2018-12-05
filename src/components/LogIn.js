@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { setAuthedUser } from '../actions/authedUser'
 import { alertClear } from '../actions/alert'
+import logo from '../logo.svg';
 
 
 
@@ -41,6 +42,7 @@ class Login extends Component {
       <div>
         
         <h3 className='center'>Login</h3>
+        {logo}
         <form className="login-selector" onSubmit={this.handleSubmit}>
           <select value={selectedOption} onChange={this.handleChange}>
             <option value="select">Select user...</option>

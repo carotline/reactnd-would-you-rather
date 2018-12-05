@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { Router, Route, Switch, Redirect } from 'react-router-dom'
+import React, { Component, Fragment } from 'react';
+import { Router, Route, Switch } from 'react-router-dom'
+import LoadingBar from 'react-redux-loading'
 import { connect } from 'react-redux'
 import { history } from '../utils/history';
 import { handleInitialData } from '../actions/shared'
@@ -11,7 +12,6 @@ import PrivateRoute from './PrivateRoute'
 import NotFound from './NotFound'
 import FilteredPolls from './FilteredPolls'
 import Nav from './Nav'
-import logo from '../logo.svg';
 import '../App.css';
 
 
@@ -38,27 +38,35 @@ class App extends Component {
     return (
 
       <Router history={history}>
-        <div>
-          <Nav />
-          {!!alert && <div className='error'>{alert}</div>}  
-          <Switch>
-          {authedUser !== null ?
-            <Route path='/' exact component={PollList} /> : 
-            <Route path='/' exact component={LogIn} /> }
-            <PrivateRoute path='/questions/:id' component={FilteredPolls} />
-            <PrivateRoute path='/add' component={NewPoll} />
-            <PrivateRoute path='/leaderboard' component={LeaderBoard} />
-            <Route component={NotFound} />
-          </Switch>
-        
-        </div>
+        <Fragment>
+          <LoadingBar />
+          <div className="container">
+            <Nav />
+            {!!alert && <div className='error'>{alert}</div>} 
+            {this.props.loading === true
+              ? null
+              : <div> 
+                  <Switch>
+                    {authedUser !== null ?
+                      <Route path='/' exact component={PollList} /> : 
+                      <Route path='/' exact component={LogIn} /> }
+                    <PrivateRoute path='/questions/:id' component={FilteredPolls} />
+                    <PrivateRoute path='/add' component={NewPoll} />
+                    <PrivateRoute path='/leaderboard' component={LeaderBoard} />
+                    <Route component={NotFound} />
+                  </Switch>
+                </div>}
+          
+          </div>
+        </Fragment>
       </Router>
     );
   }
 }
 
-function mapStateToProps ({authedUser, alert}) {
+function mapStateToProps ({users, authedUser, alert}) {
   return {
+    loading: users === null,
     authedUser,
     alert
   }
