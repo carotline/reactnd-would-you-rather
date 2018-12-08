@@ -26,10 +26,10 @@ class NewPoll extends Component {
     render() {
       const { optionOne, optionTwo } = this.state
       return (
-        <div>
-          <h3 className='center'>Create New Question</h3>
+        <div className="box new-question-container">
+          <h3 className='center title-question'>Create New Question</h3>
           <p>Complete the question:</p>
-          <p>Would you rather...</p>
+          <p className="would-you-rather-text">Would You Rather...</p>
           <form onSubmit={this.handleSubmit}> 
             <input 
               placeholder="Enter Option 1"
@@ -38,7 +38,7 @@ class NewPoll extends Component {
               onChange={this.handleChange}
               className='textarea'
               maxLength={280} />
-            <p>or</p>
+            <p className="center or-text">or</p>
             <input 
               placeholder="Enter Option 2"
               name="optionTwo"

@@ -5,27 +5,27 @@ import { Link, withRouter } from 'react-router-dom'
 
 
 class Poll extends Component {
-  state = {
-    filter: this.props.filter
-  }
-    render() {
-      console.log('POLL', this.props.poll)
-      const {poll, id, filter} = this.props
-      return (
-        <div>
-          <h2>{poll.name}</h2>
-          <h3 className='center'>Would You Rather</h3>
-          <img src={poll.avatar}></img>
+  render() {
+    console.log('POLL', this.props.poll)
+    const {poll, id, pollFilter} = this.props
+    console.log('POLLFILTERINPOLL', pollFilter)
+    return (
+      <div>
+        <h2 className="poll-author">{poll.name} ask:</h2>
+        <div className="poll-avatar">
+          <img src={poll.avatar} alt={poll.name} />
+        </div>
+        <div className="poll-details">
+          <h3 className='would-you-title'>Would You Rather...</h3>
           <p>{poll.optionOne.text}</p>
-          <Link to={{pathname: `/questions/${id}`, state: { filter: this.state.filter}}}>
+          <Link className="poll-detail-link" 
+                to={{pathname: `/questions/${id}`, state: { pollFilter }}}>
             View Poll
           </Link>
-
-
-
         </div>
-      )
-    }
+      </div>
+    )
+  }
 }
 
 function mapStateToProps ({authedUser, users, polls}, {id}) {

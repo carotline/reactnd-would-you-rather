@@ -1,8 +1,9 @@
 import React from 'react';
+import { history } from '../utils/history';
 
 export const NotFound = ({ location }) => (
   <div>
-    <h3>No match for <code>{location.pathname}</code></h3>
+    <h3>No match for <code>{history.location.pathname}</code></h3>
   </div>
 )
 

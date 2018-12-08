@@ -5,7 +5,7 @@ import { setAuthedUser } from '../actions/authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 let user = JSON.parse(localStorage.getItem('user'));
-const AUTHED_ID = user ? user : null
+const AUTHED_ID = user ? user : 'logout'
 export function handleInitialData () {
     return (dispatch) => {
       dispatch(showLoading())

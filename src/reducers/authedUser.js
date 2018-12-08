@@ -7,7 +7,7 @@ import { UNSET_AUTHED_USER } from '../actions/authedUser'
       return action.id
     case UNSET_AUTHED_USER :
     console.log('unsetReduxcer')
-      return null
+      return 'logout'
     default :
       return state
   }

@@ -4,37 +4,37 @@ import Poll from './Poll'
 
 class PollList extends Component {
     state = {
-      filter: 'unanswered',
+      pollFilter: 'unanswered',
       filteredPollIds: this.props.orderedUnansewred
     }
     handleFilter = (event) => {
       this.setState({
-        filter: event.target.value,
+        pollFilter: event.target.value,
         filteredPollIds: event.target.value === 'unanswered' ?
         this.props.orderedUnansewred : this.props.orderedAnsewred
       })
     }
     render() {
-      const { filter, filteredPollIds } = this.state
+      const { pollFilter, filteredPollIds } = this.state
+      console.log("ouep",pollFilter)
       return (
-        <div>
-          <h3 className='center'>PollList here</h3>
+        <div className="box home-list-box">
           <button 
             value='unanswered' 
             onClick={this.handleFilter}
-            className={'btn-filter ' + filter === 'unanswered' ? 'active' : ''}>
-              unanswered questions
+            className={pollFilter === 'unanswered' ? 'active btn-filter' : 'btn-filter'}>
+              Unanswered Questions
           </button>
           <button 
             value='answered' 
             onClick={this.handleFilter}
-            className={'btn-filter ' + filter === 'answered' ? 'active' : ''}>
-              answered questions
+            className={pollFilter === 'answered' ? 'active btn-filter' : 'btn-filter'}>
+              Answered Questions
           </button>
-          <ul>
+          <ul className="poll-box-container">
             {filteredPollIds.map((id)=> (
-                <li key={id}>
-                  <Poll id={id} />
+                <li className="poll-box" key={id}>
+                  <Poll pollFilter={pollFilter} id={id} />
                 </li>
             ))}
           </ul>
@@ -43,6 +43,7 @@ class PollList extends Component {
     }
   }
   function mapStateToProps ({ polls, authedUser, users }) {
+    console.log('POLLIST')
     const pollIds = Object.keys(polls)
      .sort((a,b) => polls[b].timestamp - polls[a].timestamp)
     const ansewredIds = Object.keys(users[authedUser].answers) 
@@ -51,9 +52,9 @@ class PollList extends Component {
      
     pollIds.map(id => {
       if (ansewredIds.indexOf(id) > -1) {
-        orderedAnsewred.push(id)
+        return orderedAnsewred.push(id)
       } else {
-        orderedUnansewred.push(id)
+        return orderedUnansewred.push(id)
       }
     })
     return {

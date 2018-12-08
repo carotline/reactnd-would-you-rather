@@ -19,7 +19,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const { dispatch } = this.props;
+    //const { dispatch } = this.props;
     history.listen((location, action) => {
         console.log('listen',history);
         // clear alert on location change
@@ -40,14 +40,14 @@ class App extends Component {
       <Router history={history}>
         <Fragment>
           <LoadingBar />
-          <div className="container">
+          <div>
             <Nav />
-            {!!alert && <div className='error'>{alert}</div>} 
+            {!!alert && <div className='error center'>{alert}</div>} 
             {this.props.loading === true
               ? null
-              : <div> 
+              : <div className="container"> 
                   <Switch>
-                    {authedUser !== null ?
+                    {authedUser !== 'logout'?
                       <Route path='/' exact component={PollList} /> : 
                       <Route path='/' exact component={LogIn} /> }
                     <PrivateRoute path='/questions/:id' component={FilteredPolls} />
@@ -64,9 +64,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({users, authedUser, alert}) {
+function mapStateToProps ({authedUser, alert}) {
   return {
-    loading: users === null,
+    loading: authedUser === null,
     authedUser,
     alert
   }

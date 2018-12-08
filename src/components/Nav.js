@@ -32,9 +32,16 @@ class Nav extends React.Component {
               Leader Board
             </NavLink>
           </li>
+          {!!authedUser &&
+            <li className="user-log-box">
+              <button className="logout" onClick={this.handleLogout}> 
+                Logout
+              </button>
+              <span className="log-username">
+                {authedUser}
+              </span>
+            </li>}
         </ul>
-        {!!authedUser &&
-          <div><button onClick={this.handleLogout}> Logout</button>{authedUser}</div>}
       </nav>
     )
   }

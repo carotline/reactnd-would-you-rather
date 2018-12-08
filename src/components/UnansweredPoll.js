@@ -25,12 +25,33 @@ class UnansweredPoll extends Component {
 
     }
     render() {
+  
       const { poll } = this.props
+
+      console.log("POLLLLLLL",poll)
+
+      if (poll === null) {
+        return <p className="error center">This Question doesn't exist</p>
+      }
+    /*
+      const {polls, id, authedUser, users} = this.props
+      console.log("FUCKINGID",id)
+      //const poll = polls[id.id]
+      console.log(id.id)
+      console.log(polls)
+      if (!Object.keys(polls).length) {
+        return <p>fucking wait</p>
+      }
+      */
+
       return (
-        <div className="unanswered-poll-box">
-          <h3 className='center'>{poll.name} ask:</h3>
-          <img src={poll.avatar}></img>
-          <div>
+        <div className="box unanswered-box">
+          <h2 className='poll-author'>{poll.name} ask:</h2>
+          <div className="poll-avatar">
+            <img src={poll.avatar} alt={poll.name} />
+          </div>
+
+          <div className="poll-details">
             <h2>Would You Rather...</h2>
             <form onSubmit={this.handleSubmit}>
               <label>
@@ -39,7 +60,7 @@ class UnansweredPoll extends Component {
                   value='optionOne' 
                   checked={this.state.selectedOption === 'optionOne'}
                   onChange={this.handleOptionChange} /> 
-                    {poll.optionOne.text}<br />
+                {poll.optionOne.text}<br />
               </label>
               <label>
                 <input 
@@ -49,22 +70,32 @@ class UnansweredPoll extends Component {
                   onChange={this.handleOptionChange} /> 
                     {poll.optionTwo.text}<br />
               </label>
-              <button type="submit">Submit</button>
+              <button className="btn center" type="submit">Submit</button>
             </form>
           </div>
-
         </div>
       )
     }
 }
 
+
 function mapStateToProps ({authedUser, users, polls}, {id}) {
-  const poll = polls[id]
+  const pollId = id.id
+  const poll = polls[pollId]
   return {
     authedUser,
-    poll: poll
-      ? formatPoll(poll, users[poll.author], authedUser)
-      : null
+    poll: poll ? formatPoll(poll, users[poll.author], authedUser) : null
   }
 }
+
+/*
+function mapStateToProps ({authedUser, users, polls}) {
+
+  return {
+    authedUser,
+    polls,
+    users
+  }
+}
+*/
 export default connect(mapStateToProps)(UnansweredPoll) 

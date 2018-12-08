@@ -1,44 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { formatPoll } from '../utils/helper'
 import UnansweredPoll from './UnansweredPoll'
 import AnsweredPoll from './AnsweredPoll'
+import NotFound from './NotFound'
+import { history } from '../utils/history';
 
 
 class FilteredPolls extends Component {
   render () {
-  const {isunanswered, id} = this.props
-  //const {filter} = this.props.location.state
-  console.log('isunanswered',isunanswered)
-  console.log(this.props.match.params)
-  return (
-    <div>Filtered
-    {isunanswered ? 
-      <UnansweredPoll id={id} /> :<AnsweredPoll id={id} />}
-    </div>
-  )
-}
-}
-function mapStateToProps ({ authedUser, polls, users }, props) {
-  console.group("mapStateToProps")
-  const { id } = props.match.params
-  console.log('propsMatch', id)
-  const poll = polls[id]  
-  let state = {} 
-  if (!!poll) {
-      const formatedPoll = formatPoll(poll, users[poll.author], authedUser)
-      if(!!formatedPoll && !!formatedPoll.optionOne && !!formatedPoll.optionTwo) {
-        const isunanswered = (!formatedPoll.optionOne.hasVoted && !formatedPoll.optionTwo.hasVoted) ? true : false
-        state =  {
-          id,
-          isunanswered: isunanswered
-        }
-      }
+    //const {isunanswered} = this.props
+    if (!history.location.state) {
+      return <NotFound />
+    } 
+    const pollFilter = history.location.state.pollFilter 
+    const id = this.props.match.params
+    //const {filter} = this.props.location.state
+    console.log(this.props.match.params)
+    console.log("FILTEREDRENDERID",id)
+    return (
+      <div>
+      {pollFilter === 'unanswered' ? 
+        <UnansweredPoll id={id} /> :<AnsweredPoll id={id} />}
+      </div>
+    )
   }
-  return state
 }
 
-//const { id } = props.match.params
-
-
-export default connect(mapStateToProps)(FilteredPolls) 
+export default connect()(FilteredPolls) 
