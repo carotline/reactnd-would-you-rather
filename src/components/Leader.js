@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { formatBoard } from '../utils/helper'
 
-
 class Leader extends Component {
   render() {
     const {lead} = this.props
@@ -32,7 +31,5 @@ function mapStateToProps ({ users }, { id }) {
     ? formatBoard(lead)
     : null
   }
-
 }
-
 export default connect(mapStateToProps)(Leader)

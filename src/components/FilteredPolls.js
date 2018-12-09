@@ -3,27 +3,31 @@ import { connect } from 'react-redux'
 import UnansweredPoll from './UnansweredPoll'
 import AnsweredPoll from './AnsweredPoll'
 import NotFound from './NotFound'
-import { history } from '../utils/history';
-
+import { formatPoll } from '../utils/helper'
 
 class FilteredPolls extends Component {
   render () {
-    //const {isunanswered} = this.props
-    if (!history.location.state) {
+    const { poll, id } = this.props
+    if (poll === null) {
       return <NotFound />
-    } 
-    const pollFilter = history.location.state.pollFilter 
-    const id = this.props.match.params
-    //const {filter} = this.props.location.state
-    console.log(this.props.match.params)
-    console.log("FILTEREDRENDERID",id)
+    }
+    const isUnAnswered = poll.optionOne.hasVoted === false 
+            && poll.optionTwo.hasVoted === false ?
+            true : false
     return (
       <div>
-      {pollFilter === 'unanswered' ? 
-        <UnansweredPoll id={id} /> :<AnsweredPoll id={id} />}
+        {isUnAnswered ? 
+          <UnansweredPoll id={id} /> :<AnsweredPoll id={id} />}
       </div>
     )
   }
 }
-
-export default connect()(FilteredPolls) 
+function mapStateToProps ({authedUser, users, polls}, props) {
+  const id = props.match.params.id
+  const poll = polls[id]
+  return {
+    id,
+    poll : poll ? formatPoll(poll, users[poll.author], authedUser) : null
+  }
+}
+export default connect(mapStateToProps)(FilteredPolls) 

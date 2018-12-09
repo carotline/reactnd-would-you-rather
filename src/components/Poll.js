@@ -3,12 +3,9 @@ import { connect } from 'react-redux'
 import { formatPoll } from '../utils/helper'
 import { Link, withRouter } from 'react-router-dom'
 
-
 class Poll extends Component {
   render() {
-    console.log('POLL', this.props.poll)
     const {poll, id, pollFilter} = this.props
-    console.log('POLLFILTERINPOLL', pollFilter)
     return (
       <div>
         <h2 className="poll-author">{poll.name} ask:</h2>
@@ -27,7 +24,6 @@ class Poll extends Component {
     )
   }
 }
-
 function mapStateToProps ({authedUser, users, polls}, {id}) {
   const poll = polls[id]
   return {

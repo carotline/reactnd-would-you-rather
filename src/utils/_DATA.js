@@ -148,7 +148,6 @@ let users = {
   }
   
   export function _saveQuestion (question) {
-    console.log(question)
     return new Promise((res, rej) => {
       const authedUser = question.author;
       const formattedQuestion = formatQuestion(question);
@@ -185,7 +184,7 @@ let users = {
             }
           }
         }
-  
+        
         questions = {
           ...questions,
           [qid]: {

@@ -3,45 +3,33 @@ import { connect } from 'react-redux'
 import { setAuthedUser } from '../actions/authedUser'
 import { alertClear } from '../actions/alert'
 import logo from '../logo.svg';
-
-
-
+import { withRouter } from 'react-router-dom'
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    console.log('LoginLocation',this.props.location);
-
-  }
   state = {
     selectedOption: "select"
   }
-
   handleChange = (event) => {
     this.setState({selectedOption: event.target.value});
   }
-
   handleSubmit = (e) => {
     e.preventDefault()
 
     const { selectedOption } = this.state
-    const {authedUser, dispatch} = this.props
+    const { dispatch } = this.props
 
     dispatch(alertClear())
     dispatch(setAuthedUser(selectedOption))
     localStorage.setItem('user', JSON.stringify(selectedOption))
-
-    console.log('afterDispatch',authedUser)
   }
   render() {
     const { users } = this.props
     const { selectedOption } = this.state
-
     return (
       <div className="box login-box">
         <h2 className='center login-title'>Welcome to the Would You Rather App!</h2>
         <div className="logo">
-          <object className="App-logo" type="image/svg+xml" data={logo}></object>
+          <object className="App-logo" type="image/svg+xml" data={logo}>React Logo</object>
         </div>
         <p>Please Sign In To Continue</p>
         <form className="login-selector" onSubmit={this.handleSubmit}>
@@ -65,11 +53,9 @@ class Login extends Component {
     )
   }
 }
-
-function mapStateToProps ({users, authedUser}) {
+function mapStateToProps ({ users }) {
   return {
-    authedUser,
     users
   }
 }
-export default connect(mapStateToProps)(Login)
+export default withRouter(connect(mapStateToProps)(Login))

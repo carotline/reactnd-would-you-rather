@@ -12,31 +12,15 @@ import PrivateRoute from './PrivateRoute'
 import NotFound from './NotFound'
 import FilteredPolls from './FilteredPolls'
 import Nav from './Nav'
-import '../App.css';
-
+import '../css/App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    //const { dispatch } = this.props;
-    history.listen((location, action) => {
-        console.log('listen',history);
-        // clear alert on location change
-       // dispatch(alertActions.clear());
-    });
-  }
-
   componentDidMount() {
     this.props.dispatch(handleInitialData())
   }
-
   render() {
     const { authedUser, alert } = this.props
-    console.log('history', history);
-    console.log('App Page, Authed', this.props.authedUser);
     return (
-
       <Router history={history}>
         <Fragment>
           <LoadingBar />
@@ -55,15 +39,14 @@ class App extends Component {
                     <PrivateRoute path='/leaderboard' component={LeaderBoard} />
                     <Route component={NotFound} />
                   </Switch>
-                </div>}
-          
+                </div>
+            }
           </div>
         </Fragment>
       </Router>
     );
   }
 }
-
 function mapStateToProps ({authedUser, alert}) {
   return {
     loading: authedUser === null,

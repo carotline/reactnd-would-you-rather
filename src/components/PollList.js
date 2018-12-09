@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Poll from './Poll'
+import { withRouter } from 'react-router-dom'
 
 class PollList extends Component {
     state = {
@@ -11,12 +12,11 @@ class PollList extends Component {
       this.setState({
         pollFilter: event.target.value,
         filteredPollIds: event.target.value === 'unanswered' ?
-        this.props.orderedUnansewred : this.props.orderedAnsewred
+            this.props.orderedUnansewred : this.props.orderedAnsewred
       })
     }
     render() {
       const { pollFilter, filteredPollIds } = this.state
-      console.log("ouep",pollFilter)
       return (
         <div className="box home-list-box">
           <button 
@@ -31,25 +31,29 @@ class PollList extends Component {
             className={pollFilter === 'answered' ? 'active btn-filter' : 'btn-filter'}>
               Answered Questions
           </button>
-          <ul className="poll-box-container">
-            {filteredPollIds.map((id)=> (
+          {filteredPollIds.length < 1 ? 
+            <div className="no-polls center">There is no {pollFilter} questions</div> :
+            <ul className="poll-box-container">
+              {filteredPollIds.map((id)=> (
                 <li className="poll-box" key={id}>
                   <Poll pollFilter={pollFilter} id={id} />
                 </li>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          }
         </div>
       )
     }
   }
   function mapStateToProps ({ polls, authedUser, users }) {
-    console.log('POLLIST')
+    //Get array of keys questions in proper order 
     const pollIds = Object.keys(polls)
      .sort((a,b) => polls[b].timestamp - polls[a].timestamp)
-    const ansewredIds = Object.keys(users[authedUser].answers) 
+    //Get array of answered key questions 
+    const ansewredIds = Object.keys(users[authedUser].answers)
+    //sort and order answered and unanswered key question 
     const orderedAnsewred = []
     const orderedUnansewred = []
-     
     pollIds.map(id => {
       if (ansewredIds.indexOf(id) > -1) {
         return orderedAnsewred.push(id)
@@ -62,4 +66,4 @@ class PollList extends Component {
       orderedUnansewred
     }
   }
-  export default connect(mapStateToProps)(PollList) 
+  export default withRouter(connect(mapStateToProps)(PollList))

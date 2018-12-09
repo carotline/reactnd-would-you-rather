@@ -1,13 +1,10 @@
 export function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('user');
-  let user = JSON.parse(localStorage.getItem('user'));
-  console.log('logout user',user);
 }
 
 export function formatBoard(user) {
   const { name, avatarURL, questions, answers } = user
-  console.log("formatBoard")
   return {
     name,
     avatar: avatarURL,
@@ -18,7 +15,6 @@ export function formatBoard(user) {
 }
 
 export function formatPoll (poll, author, authedUser) {
-  console.log("formatPoll")
   const { optionOne, optionTwo, id, timestamp } = poll
   const { name, avatarURL } = author
   const totalVotes = optionOne.votes.length + optionTwo.votes.length
@@ -42,5 +38,4 @@ export function formatPoll (poll, author, authedUser) {
       hasVoted: optionTwo.votes.includes(authedUser),
     }
   }
-
 }

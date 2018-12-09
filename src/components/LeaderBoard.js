@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Leader from './Leader'
-
+import { withRouter } from 'react-router-dom'
 
 class LeaderBoard extends Component {
   render() {
@@ -21,7 +21,6 @@ class LeaderBoard extends Component {
 }
 
 function mapStateToProps ({ users }) {
-
   const AscLeaderIds = Object.keys(users)
     .sort((a,b) => {
       const bLength = (Object.keys(users[b].answers).length + users[b].questions.length)
@@ -32,5 +31,4 @@ function mapStateToProps ({ users }) {
     leaderIds: AscLeaderIds
   }
 }
-
-export default connect(mapStateToProps)(LeaderBoard) 
+export default withRouter(connect(mapStateToProps)(LeaderBoard)) 

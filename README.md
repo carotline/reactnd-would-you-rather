@@ -1,8 +1,49 @@
+Project: Would You Rather...
+This project is a questionary game. User can choose a avatar in the login page. Once he chose
+avatar he is being redirect to home page, with list of unanswered and answered questions by avatar. Avatar can click on question for more details. He can answer question or see details of votes. Avatar can create new questions and also see results of all others avatar in the leader board. Finally user can logout and be redirect to Login page.
+
+This project use react/redux library, for convenient purpose 
+a fake data base and API is use. There is no real authetication.
+
+#Actions & Reducers
+- Alert.js
+- authedUser.js
+- polls.js
+- users.js
+- shared.js (action)
+- index.js (reducer)
+
+# Components
+- App.js
+- Login.js
+- Nav.js
+- PollList.js
+- Poll.js
+- FilteredPolls.js
+- AnsweredPoll.js
+- UnansweredPoll.js
+- LeaderBoard.js
+- Leader.js
+- NewPoll.js
+- PrivateRoute.js
+- NotFound.js
+
+# Middleware
+- index.js
+- logger.js
+
+# Utils
+- _DATA.js
+- api.js
+- helper.js
+- history.js
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
+Index.js
 
 ### `npm start`
 
